@@ -6,11 +6,11 @@ public class DataHelper {
     private DataHelper() {}
 
     @Value
-    public static class AuthInfo {
+    public static class AuthInfo { // Информация об авторизации
         private String login;
         private String password;
     }
-    //@Value - аннотация Lombok, дает возможность с помощью аннотации создавать те самые Value Objects.
+    //@Value - аннотация Lombok, дает возможность с помощью аннотации создавать Value Objects.
     //Генерирует для объекта конструктор, методы toString()/equals()/hashCode()
 
     public static AuthInfo getAuthInfo() {
@@ -18,7 +18,7 @@ public class DataHelper {
     }
 
     @Value
-    public static class VerificationCode {
+    public static class VerificationCode { // Код верификации
         private String code;
     }
 
@@ -27,22 +27,21 @@ public class DataHelper {
     }
 
     @Value
-    public static class BalanceFirstCard {
+    public static class Card1 {
         private String numberCard1;
-        private int balanceCard1;
     }
 
-    public static BalanceFirstCard getBalanceFirstCardFor(AuthInfo authInfo) {
-        return new BalanceFirstCard("5559 0000 0000 0001", 10_000);
+    public static Card1 getFirstCard() {
+        return new Card1("5559 0000 0000 0001");
     }
 
     @Value
-    public static class BalanceSecondCard {
+    public static class Card2 {
         private String numberCard2;
-        private int balanceCard2;
     }
 
-    public static BalanceSecondCard getBalanceSecondCardFor(AuthInfo authInfo) {
-        return new BalanceSecondCard("5559 0000 0000 0002", 10_000);
+    public static Card2 getSecondCard() {
+        return new Card2("5559 0000 0000 0002");
     }
+
 }

@@ -2,10 +2,9 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.web.data.DataHelper;
-
 import static com.codeborne.selenide.Selenide.$;
 
-public class LoginPage { // страница входа
+public class LoginPage { // Страница входа
     // Реализуем pattern Page Object (позволяет реализовывать несколько методов и не копировать их, а обращаться к приватным полям)
     // Все элемынеы с которыми мы взаимодействуем (их селекторы) выносятся в приватные поля класса
     // а внутри теста обращаемся к полям класса

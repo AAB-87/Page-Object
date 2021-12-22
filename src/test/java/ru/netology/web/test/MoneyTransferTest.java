@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
+
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.web.data.DataHelper.getFirstCardNumber;
@@ -32,8 +33,25 @@ class MoneyTransferTest {
         val secondCardInfo = getSecondCardNumber(); // присваиваем номер карты
         val expectedResultSecondCard = dashboardPage.getSecondCardBalance() - amountValue; // отнимаем из общей суммы на второй карте 2500 руб
         val expectedResultFirstCard = dashboardPage.getFirstCardBalance() + amountValue; // прибавляем к общей сумме первой карты 2500 руб
-        val transferPage = dashboardPage.chooseCard(firstCardInfo);
-        transferPage.updateBalance(secondCardInfo, amountValue);
+        val transferPage = dashboardPage.firstCardDeposit(); // кликаем на кнопку Пополнить
+        transferPage.updateBalance(amountValue, DataHelper.getSecondCardNumber()); // обновляем сумму второй карты
+        val actualResultsFirstCard = dashboardPage.getFirstCardBalance(); // запрашиваем баланс первой карты после перевода средств
+        val actualResultsSecondCard = dashboardPage.getSecondCardBalance(); // запрашиваем баланс второй карты после перевода средств
+        assertEquals(expectedResultFirstCard, actualResultsFirstCard); // сравниваем ОР и ФР
+        assertEquals(expectedResultSecondCard, actualResultsSecondCard); // сравниваем ОР и ФР
+    }
+
+    @Test
+    void transactionFromFirstToSecondCard() {
+        // var - ключевое слово в Java, которое позволяет не писать тип для переменной.
+        val dashboardPage = new DashboardPage(); // создаём новый объект
+        int amountValue = 3000; // указываем сумму
+        val firstCardInfo = getFirstCardNumber(); // присваиваем номер карты
+        val secondCardInfo = getSecondCardNumber(); // присваиваем номер карты
+        val expectedResultFirstCard = dashboardPage.getFirstCardBalance() - amountValue; // отнимаем из общей суммы на первой карте 30000 руб
+        val expectedResultSecondCard = dashboardPage.getSecondCardBalance() + amountValue; // прибавляем к общей сумме второй карты 3000 руб
+        val transferPage = dashboardPage.secondCardDeposit(); // кликаем на кнопку Пополнить
+        transferPage.updateBalance(amountValue, DataHelper.getFirstCardNumber()); // обновляем сумму первой карты
         val actualResultsFirstCard = dashboardPage.getFirstCardBalance(); // запрашиваем баланс первой карты после перевода средств
         val actualResultsSecondCard = dashboardPage.getSecondCardBalance(); // запрашиваем баланс второй карты после перевода средств
         assertEquals(expectedResultFirstCard, actualResultsFirstCard); // сравниваем ОР и ФР

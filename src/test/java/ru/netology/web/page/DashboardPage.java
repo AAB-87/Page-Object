@@ -3,14 +3,15 @@ package ru.netology.web.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
-import ru.netology.web.data.DataHelper;
-import static com.codeborne.selenide.Condition.text;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage { // Страница личного кабинета
-    private SelenideElement heading = $("[data-test-id=dashboard]");
+    private SelenideElement heading = $("[data-test-id=dashboard]"); // находим заголовок Личный кабинет
+    private SelenideElement buttonFirstCard = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] button"); // находим кнопку Пополнить первой карты
+    private SelenideElement buttonSecondCard = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d'] button"); // находим кнопку Пополнить второй карты
     private ElementsCollection cards = $$(".list__item"); // где list__item - элемент строки содержащий **** **** **** 0001, баланс: 10000 р. + кнопку
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
@@ -20,11 +21,6 @@ public class DashboardPage { // Страница личного кабинета
         heading.shouldBe(visible); // заголовок страницы (Личный кабинет) должен быть виден
     }
 
-    public int getFirstCardBalance() {
-        val text = cards.first().text(); // метод text возвращает текст элемента **** **** **** 0001, баланс: 10000 р. + кнопку
-        return extractBalance(text);
-    }
-
     private int extractBalance(String text) { // Извлечение баланса из текста элемента
         val start = text.indexOf(balanceStart); // indexOf - возвращает позицию, с которой начинается подстрока в строке
         val finish = text.indexOf(balanceFinish); // indexOf - возвращает позицию, с которой начинается подстрока в строке
@@ -32,13 +28,23 @@ public class DashboardPage { // Страница личного кабинета
         return Integer.parseInt(value);
     }
 
-    public int getSecondCardBalance() {
-        val text = cards.last().text(); // метод text возвращает текст элемента **** **** **** 0001, баланс: 10000 р. + кнопку
-        return extractBalance(text);
+    public int getFirstCardBalance() {
+        val text = cards.first().text(); // метод text возвращает текст элемента **** **** **** 0001, баланс: 10000 р. + кнопку
+        return extractBalance(text); // извлекает баланс первой карты из элеманта
     }
 
-    public TransferPage chooseCard(DataHelper.CardInfo cardInfo) { // запрашиваем инфу у DataHelper
-        cards.findBy(text(cardInfo.getCardNumber())).find("[data-test-id=action-deposit]").click(); // обращаемся к полю cards вызываем у него метод поиска
-        return new TransferPage(); // возвражается страница Личного кабинета
+    public int getSecondCardBalance() {
+        val text = cards.last().text(); // метод text возвращает текст элемента **** **** **** 0001, баланс: 10000 р. + кнопку
+        return extractBalance(text); // извлекает баланс второй карты из элеманта
+    }
+
+    public TransferPage firstCardDeposit() {
+        buttonFirstCard.click(); // при клике на кнопку Пополнить первую карту
+        return new TransferPage(); // открывается новое окно TransferPage
+    }
+
+    public TransferPage secondCardDeposit() {
+        buttonSecondCard.click(); // при клике на кнопку Пополнить вторую карту
+        return new TransferPage(); // открывается новое окно TransferPage
     }
 }

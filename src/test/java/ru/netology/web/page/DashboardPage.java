@@ -37,13 +37,8 @@ public class DashboardPage { // Страница личного кабинета
         return extractBalance(text);
     }
 
-    public TransferPage chooseCard1(DataHelper.Card1 card1) { // запрашиваем инфу у DataHelper
-        cards.findBy(text(card1.getNumberCard1())).find("[data-test-id=action-deposit]").click(); // обращаемся к полю cards вызываем у него метод поиска
-        return new TransferPage(); // возвражается страница Личного кабинета
-    }
-
-    public TransferPage chooseCard2(DataHelper.Card2 card2) { // запрашиваем инфу у DataHelper
-        cards.findBy(text(card2.getNumberCard2())).find("[data-test-id=action-deposit]").click(); // обращаемся к полю cards вызываем у него метод поиска
+    public TransferPage chooseCard(DataHelper.CardInfo cardInfo) { // запрашиваем инфу у DataHelper
+        cards.findBy(text(cardInfo.getCardNumber())).find("[data-test-id=action-deposit]").click(); // обращаемся к полю cards вызываем у него метод поиска
         return new TransferPage(); // возвражается страница Личного кабинета
     }
 }

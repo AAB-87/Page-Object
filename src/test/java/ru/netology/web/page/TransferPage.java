@@ -15,7 +15,7 @@ public class TransferPage { // Страница перевода средств
         amountField.shouldBe(visible); // поле ввода суммы страницы должно быть видно
     }
 
-    public DashboardPage updateBalance(int amountValue, DataHelper.CardInfo cardInfo) {
+    public DashboardPage updateBalance(int amountValue, DataHelper.CardInfo cardInfo) { // выполняем перевод с одной карты на другую
         amountField.setValue(String.valueOf(amountValue)); // вписываем сумму
         fromField.setValue(cardInfo.getCardNumber()); // вписываем номер карты
         topUpButton.click(); // кликаем по кнопке Попоплнить
